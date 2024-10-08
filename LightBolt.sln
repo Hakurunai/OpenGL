@@ -3,29 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LightBolt", "LightBolt\LightBolt.vcxproj", "{2D132DE1-0959-4FE9-BC44-05302F9A3B15}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LightBolt", "LightBolt\LightBolt.vcxproj", "{1928AD64-72A7-40A1-AEB3-C2D8E69C567B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
-		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2D132DE1-0959-4FE9-BC44-05302F9A3B15}.Debug|x64.ActiveCfg = Debug|x64
-		{2D132DE1-0959-4FE9-BC44-05302F9A3B15}.Debug|x64.Build.0 = Debug|x64
-		{2D132DE1-0959-4FE9-BC44-05302F9A3B15}.Debug|x86.ActiveCfg = Debug|Win32
-		{2D132DE1-0959-4FE9-BC44-05302F9A3B15}.Debug|x86.Build.0 = Debug|Win32
-		{2D132DE1-0959-4FE9-BC44-05302F9A3B15}.Release|x64.ActiveCfg = Release|x64
-		{2D132DE1-0959-4FE9-BC44-05302F9A3B15}.Release|x64.Build.0 = Release|x64
-		{2D132DE1-0959-4FE9-BC44-05302F9A3B15}.Release|x86.ActiveCfg = Release|Win32
-		{2D132DE1-0959-4FE9-BC44-05302F9A3B15}.Release|x86.Build.0 = Release|Win32
+		{1928AD64-72A7-40A1-AEB3-C2D8E69C567B}.Debug|x64.ActiveCfg = Debug|x64
+		{1928AD64-72A7-40A1-AEB3-C2D8E69C567B}.Debug|x64.Build.0 = Debug|x64
+		{1928AD64-72A7-40A1-AEB3-C2D8E69C567B}.Release|x64.ActiveCfg = Release|x64
+		{1928AD64-72A7-40A1-AEB3-C2D8E69C567B}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {1DC95DDC-AA23-4ABB-A159-20B00EE5ED38}
+		SolutionGuid = {4CFE0646-56C8-4150-A992-DE447D871670}
 	EndGlobalSection
 EndGlobal
