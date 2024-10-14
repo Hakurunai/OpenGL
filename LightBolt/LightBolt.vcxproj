@@ -44,12 +44,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)thirdParty\libs\glfw-3.4.bin.WIN64\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)thirdParty\libs\glfw-3.4.bin.WIN64\include;$(SolutionDir)thirdParty\libs\Glad\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)thirdParty\libs\glfw-3.4.bin.WIN64\lib-vc2022;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)thirdParty\libs\glfw-3.4.bin.WIN64\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)thirdParty\libs\glfw-3.4.bin.WIN64\include;$(SolutionDir)thirdParty\libs\Glad\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)thirdParty\libs\glfw-3.4.bin.WIN64\lib-vc2022;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
   </PropertyGroup>
@@ -88,7 +88,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="LightBolt.cpp" />
+    <ClCompile Include="src\LightBolt.cpp" />
+    <ClCompile Include="src\thirdParty\glad.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "LibPreparator": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "RUNNING_IN_VS": "true"
+      }
+    }
+  }
+}
