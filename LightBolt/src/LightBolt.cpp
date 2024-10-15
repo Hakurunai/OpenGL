@@ -84,3 +84,24 @@ void processInput(GLFWwindow* window)
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 }
+
+void DrawTriangle()
+{
+    //x,y,z format
+    float vertices[] = 
+    {
+        -0.5f, -0.5f, 0.0f,
+         0.5f, -0.5f, 0.0f,
+         0.0f,  0.5f, 0.0f
+    };
+
+    //preparing to sending data to the GPU
+    unsigned int vertexBufferObect; //VBO
+    glGenBuffers(1, &vertexBufferObect);
+
+    //Actions on GL_ARRAY_BUFFER can configure vertexBufferObject
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObect);
+
+    //Copy our vertex data into the buffer memory to our currently bounded VBO
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+}
