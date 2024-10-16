@@ -1,4 +1,4 @@
-﻿#define GLAD_DEBUG
+﻿using Eto.Forms;
 
 namespace LPrep
 {
@@ -23,7 +23,7 @@ namespace LPrep
            
             // Check if running in Visual Studio
             if (Environment.GetEnvironmentVariable("RUNNING_IN_VS") == "true")
-                libDir = Path.GetFullPath(Path.Combine(currentDir, @"..\..\..\..\thirdParty\libs"));
+                libDir = Path.GetFullPath(Path.Combine(currentDir, @"..\..\..\..\..\..\thirdParty\libs"));
             else
                 libDir = Path.GetFullPath(Path.Combine(currentDir, @"..\..\..\thirdParty\libs"));
 
@@ -34,8 +34,18 @@ namespace LPrep
             Task GLFW = glfw_Getter.LoadData(currentDir, libDir);
 
             Task.WaitAll(GLAD, GLFW);
-            Console.WriteLine("Setup complete !");
-            Console.ReadLine();
+
+            {
+                // Create an instance of CheckOpenGL
+                Application app = new Application();
+                var checkOpenGL = new CheckOpenGL(app);
+
+                // Run the Eto.Forms application
+                app.Run();
+            }
+
+            Console.WriteLine("Setup complete ! Press a key to exit.");
+            //Console.ReadLine();
         }
     }
 }
