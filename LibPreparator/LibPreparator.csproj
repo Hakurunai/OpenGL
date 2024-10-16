@@ -2,13 +2,31 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>net8.0-windows;net8.0-macos;net8.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <!-- windows specific references -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
+  	<PackageReference Include="Eto.Forms" Version="2.8.3" />
+	<PackageReference Include="Eto.Platform.Windows" Version="2.8.3" />
+  </ItemGroup>
+
+  <!-- macOS specific references -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-macos'">
+  	<PackageReference Include="Eto.Forms" Version="2.8.3" />
+  	<PackageReference Include="Eto.Platform.Mac64" Version="2.8.3" />
+  </ItemGroup>
+  
+  <!-- Linux/GTK specific references -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+  	<PackageReference Include="Eto.Forms" Version="2.8.3" />
+  	<PackageReference Include="Eto.Platform.Gtk" Version="2.8.3" />
   </ItemGroup>
 
 </Project>
