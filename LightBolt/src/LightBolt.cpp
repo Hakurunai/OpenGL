@@ -1,6 +1,8 @@
 #include <glad/glad.h> //glad need to be include before glfw
 #include <GLFW/glfw3.h>
 
+#include "Shader/Shader.h"
+
 //std
 #include <stdexcept>
 #include <iostream>
@@ -8,34 +10,8 @@
 #define WIN_WIDTH 800
 #define WIN_HEIGHT 600
 
-const char* vertexShaderSource = "#version 460 core\n"
-"layout(location = 0) in vec3 aPos;\n"
-"out vec4 vertexColor;\n"
-"void main()\n"
-"{\n"
-"    gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-"    vertexColor = vec4(0.5, 0.0, 0.0, 1.0);\n"
-"}\0";
-
-const char* fragShaderSourceOrange = "#version 460 core\n"
-"out vec4 FragColor;\n"
-"void main()\n"
-"{\n"
-"    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-"}\0";
-
-const char* fragShaderSourceYellow = "#version 460 core\n"
-"out vec4 FragColor;\n"
-"in vec4 vertexColor;\n"
-"void main()\n"
-"{\n"
-"    FragColor = vertexColor;\n"
-"}\0";
-
 void Framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void ProcessInput(GLFWwindow* window);
-void CheckShaderCompilation(unsigned int Shader, char LogBuffer[], unsigned int BufferSize);
-void CheckShaderProgramLinking(unsigned int ShaderProgram, char LogBuffer[], unsigned int BufferSize);
 
 int main()
 {
@@ -83,66 +59,24 @@ int main()
     glfwSetFramebufferSizeCallback(window, Framebuffer_size_callback);
 
 
-    // ______________ 0. Compiling shaders and create shader program ______________
-    //------ VERTEX SHADER ------
-    unsigned int vertexShader;
-    vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    //Arg : shader, how many strings to use, source code,
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    glCompileShader(vertexShader);
+    // ------ SHADERS ------
+    std::string shaderDir = "..\\Ressources\\Shaders\\";
+    std::string vShaderDir = shaderDir + "Vertex\\";
+    std::string fShaderDir = shaderDir + "Fragment\\";
 
-    const unsigned int infoLogSize = 512;
-    char infoLog[infoLogSize];
-    CheckShaderCompilation(vertexShader, infoLog, infoLogSize);
-
-    //------ FRAGMENT SHADER ------
-    unsigned int orangeFrag;
-    orangeFrag = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(orangeFrag, 1, &fragShaderSourceOrange, NULL);
-    glCompileShader(orangeFrag);
-
-    CheckShaderCompilation(orangeFrag, infoLog, infoLogSize);
-
-    unsigned int yellowFrag;
-    yellowFrag = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(yellowFrag, 1, &fragShaderSourceYellow, NULL);
-    glCompileShader(yellowFrag);
-
-    CheckShaderCompilation(yellowFrag, infoLog, infoLogSize);
-
-    //------ SHADER PROGRAM -> Final object linking all parts of the shader we want to create ------
-    unsigned int shaderProgramOrange;
-    shaderProgramOrange = glCreateProgram();
-    glAttachShader(shaderProgramOrange, vertexShader);
-    glAttachShader(shaderProgramOrange, orangeFrag);
-    glLinkProgram(shaderProgramOrange);
-
-    CheckShaderProgramLinking(shaderProgramOrange, infoLog, infoLogSize);
+    Shader shaderMultipleColors((vShaderDir + "SimplePosWithColor.vs").c_str(), (fShaderDir + "SimpleWithColor.fs").c_str());
+    Shader shaderTimeColor((vShaderDir + "SimplePos.vs").c_str(), (fShaderDir + "SimpleWithUniformColor.fs").c_str());
 
 
-    // ANOTHER SHADER PROGRAM
-    unsigned int shaderProgramYellow;
-    shaderProgramYellow = glCreateProgram();
-    glAttachShader(shaderProgramYellow, vertexShader);
-    glAttachShader(shaderProgramYellow, yellowFrag);
-    glLinkProgram(shaderProgramYellow);
-
-    CheckShaderProgramLinking(shaderProgramYellow, infoLog, infoLogSize);
-
-    //We can delete the shaders used to create our shaderProgram to free memory
-    glDeleteShader(vertexShader);
-    glDeleteShader(orangeFrag);
-    glDeleteShader(yellowFrag);
-
-
+    // ------ VERTICES DATAS ------
     //Set up vertex data (and buffer(s)) and configure vertex attributes
     //x,y,z format
     float vertices1[] =
     {
-        // first triangle
-       -0.9f, -0.5f, 0.0f,  // left 
-       -0.0f, -0.5f, 0.0f,  // right
-       -0.45f, 0.5f, 0.0f   // top 
+        // positions         // colors
+        -0.9f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
+        -0.0f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
+        -0.45f, 0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top 
     };
 
     float vertices2[]
@@ -192,8 +126,14 @@ int main()
     // ______________ 4. then set the vertex attributes pointers ______________
     //Args : Layout location value from vertex shader, vec3 = 3, type of data, normalized the datas ?,
     //memory space between 2 vertex attribute, offset where position data begin 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+    //Position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+
+    // color attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
 
 
@@ -226,7 +166,8 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glUseProgram(shaderProgramOrange);
+        
+        shaderMultipleColors.Use();
         glBindVertexArray(VAOs[0]);
 
         //Used when we want to render the triangle from an index buffer
@@ -237,7 +178,13 @@ int main()
         ////Args : Type of primitives, starting index of vertex array we want to draw, number of vertices to draw
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
-        glUseProgram(shaderProgramYellow);
+
+
+        float timeValue = glfwGetTime();
+        float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
+        shaderTimeColor.Use();
+        shaderTimeColor.SetVec4f("ourColor", 0.0f, greenValue, 0.0f, 1.0f);
+
         glBindVertexArray(VAOs[1]);
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
@@ -251,7 +198,6 @@ int main()
     // ------------------------------------------------------------------------
     glDeleteVertexArrays(2, VAOs);
     glDeleteBuffers(2, VBOs);
-    glDeleteProgram(shaderProgramOrange);
 
     glfwTerminate();
     return EXIT_SUCCESS;
@@ -268,27 +214,4 @@ void ProcessInput(GLFWwindow* window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
-}
-
-void CheckShaderCompilation(unsigned int Shader, char LogBuffer[], unsigned int BufferSize)
-{
-    int success;
-    memset(LogBuffer, 0, sizeof(LogBuffer));  // Reset LogBuffer
-    glGetShaderiv(Shader, GL_COMPILE_STATUS, &success);
-    if (!success)
-    {
-        glGetShaderInfoLog(Shader, BufferSize, NULL, LogBuffer);
-        std::cout << "ERROR::SHADER::COMPILATION_FAILED\n" << LogBuffer << std::endl;
-    }
-}
-
-void CheckShaderProgramLinking(unsigned int ShaderProgram, char LogBuffer[], unsigned int BufferSize)
-{
-    int success;
-    glGetProgramiv(ShaderProgram, GL_LINK_STATUS, &success);
-    if (!success) 
-    {
-        glGetProgramInfoLog(ShaderProgram, BufferSize, NULL, LogBuffer);
-        std::cout << "ERROR::SHADER_PROGRAM::LINKING_FAILED\n" << LogBuffer << std::endl;
-    }
 }

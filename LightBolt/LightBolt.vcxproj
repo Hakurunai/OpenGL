@@ -88,8 +88,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Shader\Shader.cpp" />
     <ClCompile Include="src\LightBolt.cpp" />
     <ClCompile Include="src\thirdParty\glad.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Shader\Shader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
