@@ -1,5 +1,5 @@
 Using GLFW 3.4 for WIN64, lib-vc2022
-Using Glad
+Using Glad (already included in the repo)
 Using OpenGL 4.6 (LibPreparator will only check if your current version is under this one or not)
 using .NET 8.0 -> sdk here : https://dotnet.microsoft.com/en-us/download/dotnet/8.0 (not included via LibPreparator)
 

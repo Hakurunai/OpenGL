@@ -1,4 +1,5 @@
 ﻿using Eto.Forms;
+using System.Threading.Tasks;
 
 namespace LPrep
 {
@@ -13,7 +14,7 @@ namespace LPrep
     class Program
     {
 #if DEBUG
-        const DebugInfo debugInfo = DebugInfo.All;
+        const DebugInfo debugInfo = DebugInfo.Nothing;
 #endif
 
         static void Main(string[] args)
@@ -26,14 +27,23 @@ namespace LPrep
                 libDir = Path.GetFullPath(Path.Combine(currentDir, @"..\..\..\..\..\..\thirdParty\libs"));
             else
                 libDir = Path.GetFullPath(Path.Combine(currentDir, @"..\..\..\thirdParty\libs"));
-
-            GLAD_Getter glad_Getter = new GLAD_Getter();
-            Task GLAD = glad_Getter.LoadData(currentDir, libDir);
+            Console.WriteLine($"Lib directory : {libDir}");
 
             GLFW_Getter glfw_Getter = new GLFW_Getter();
+#if DEBUG
+            if (debugInfo == DebugInfo.All)
+            {
+                glfw_Getter.LoadData(currentDir, libDir).Wait();
+            }
+            else
+            { 
+                Task GLFW = glfw_Getter.LoadData(currentDir, libDir);
+                Task.WaitAll(GLFW);
+            }
+#else
             Task GLFW = glfw_Getter.LoadData(currentDir, libDir);
-
-            Task.WaitAll(GLAD, GLFW);
+            Task.WaitAll(GLFW);
+#endif
 
             {
                 // Create an instance of CheckOpenGL
