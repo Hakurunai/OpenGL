@@ -86,6 +86,11 @@ void Shader::SetVec4f(const std::string& name, float x, float y, float z, float 
     glUniform4f(glGetUniformLocation(ID, name.c_str()), x, y, z, w);
 }
 
+void Shader::SetVec3f(const std::string& name, float x, float y, float z) const
+{
+    glUniform3f(glGetUniformLocation(ID, name.c_str()), x, y, z);
+}
+
 //GL_ShaderType exemple : GL_VERTEX_SHADER, GL_FRAGMENT_SHADER...
 void Shader::CompileShader(unsigned int& ShaderID, const char* ShaderSource, const int GL_ShaderType, char LogBuffer[],
                            const unsigned int BufferSize)

@@ -21,6 +21,8 @@ public:
     void SetBool(const std::string& name, bool value) const;
     void SetInt(const std::string& name, int value) const;
     void SetFloat(const std::string& name, float value) const;
+
+    void SetVec3f(const std::string& name, float x, float y, float z) const;
     void SetVec4f(const std::string& name, float x, float y, float z, float w) const;
 
     static void CompileShader(unsigned int& ShaderID, const char* ShaderSource, const int GL_ShaderType,

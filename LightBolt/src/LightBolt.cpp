@@ -64,8 +64,8 @@ int main()
     std::string vShaderDir = shaderDir + "Vertex\\";
     std::string fShaderDir = shaderDir + "Fragment\\";
 
-    Shader shaderMultipleColors((vShaderDir + "SimplePosWithColor.vs").c_str(), (fShaderDir + "SimpleWithColor.fs").c_str());
-    Shader shaderTimeColor((vShaderDir + "SimplePos.vs").c_str(), (fShaderDir + "SimpleWithUniformColor.fs").c_str());
+    Shader shaderMultipleColors((vShaderDir + "MovingObjectWithColor.vs").c_str(), (fShaderDir + "SimpleWithColor.fs").c_str());
+    Shader shaderTimeColor((vShaderDir + "SimplePos.vs").c_str(), (fShaderDir + "SimpleDrawPosition.fs").c_str());
 
 
     // ------ VERTICES DATAS ------
@@ -157,9 +157,12 @@ int main()
 
     //GL_FILL and GL_LINE to alternate between wireframe mode on/off
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    float time{ 0.f };
     // Render loop
     while (!glfwWindowShouldClose(window))
     {
+        time = glfwGetTime();
+
         ProcessInput(window);
 
         //Rendering
@@ -168,6 +171,8 @@ int main()
 
         
         shaderMultipleColors.Use();
+        shaderMultipleColors.SetFloat("offset", sin(time) / 2.0f);
+
         glBindVertexArray(VAOs[0]);
 
         //Used when we want to render the triangle from an index buffer
@@ -177,13 +182,8 @@ int main()
         //NO EBO is used with this function
         ////Args : Type of primitives, starting index of vertex array we want to draw, number of vertices to draw
         glDrawArrays(GL_TRIANGLES, 0, 3);
-
-
-
-        float timeValue = glfwGetTime();
-        float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
+;
         shaderTimeColor.Use();
-        shaderTimeColor.SetVec4f("ourColor", 0.0f, greenValue, 0.0f, 1.0f);
 
         glBindVertexArray(VAOs[1]);
         glDrawArrays(GL_TRIANGLES, 0, 3);
